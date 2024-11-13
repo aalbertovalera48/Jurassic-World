@@ -6,6 +6,10 @@ import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class SensorWebSocketController {
 
@@ -22,8 +26,17 @@ public class SensorWebSocketController {
     private final Sinks.Many<String> movementSink = Sinks.many().multicast().onBackpressureBuffer();
     private final Sinks.Many<Integer> heartRateSink = Sinks.many().multicast().onBackpressureBuffer();
 
-    public SensorWebSocketController() {
-        temperatureSensorService.streamTemperatureData().subscribe(temperatureSink::tryEmitNext);
+    @PostConstruct
+    public void init() {
+        List<Dinosaurio> dinosaurios = new ArrayList<>();
+        dinosaurios.add(new Dinosaurio("T-Rex", "Carnívoro", "Selva"));
+        dinosaurios.add(new Dinosaurio("Triceratops", "Herbívoro", "Pradera"));
+        dinosaurios.add(new Dinosaurio("Velociraptor", "Carnívoro", "Selva"));
+        dinosaurios.add(new Dinosaurio("Diplodocus", "Herbívoro", "Pradera"));
+        dinosaurios.add(new Dinosaurio("Pteranodon", "Piscívoro", "Océano"));
+        dinosaurios.add(new Dinosaurio("Cruteranodon", "Piscívoro", "Océano"));
+
+        temperatureSensorService.streamTemperatureData(dinosaurios).subscribe(temperatureSink::tryEmitNext);
         movimientoSensorService.streamMovementData().subscribe(movementSink::tryEmitNext);
         frequenciaCardiacaSensorService.streamHeartRateData().subscribe(heartRateSink::tryEmitNext);
     }

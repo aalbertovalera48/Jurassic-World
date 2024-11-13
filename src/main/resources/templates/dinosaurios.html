@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinosaurios en sus Hábitats</title>
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        .habitat-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .habitat {
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            height: 200px;
+        }
+        .dinosaur {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            image-rendering: pixelated;
+        }
+        .habitat h2 {
+            font-size: 18px;
+            color: #333;
+        }
+        .habitat p {
+            font-size: 14px;
+            color: #555;
+        }
+        #habitat-selva {
+            background-image: url('/static/selva.png');
+        }
+        #habitat-pradera {
+            background-image: url('/static/pradera.png');
+        }
+        #habitat-oceano {
+            background-image: url('/static/oceano.png');
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <h1>Dinosaurios en sus Hábitats</h1>
+</div>
+<div class="habitat-container">
+    <div class="habitat" id="habitat-selva">
+        <img src="/static/t-rex.png" alt="T-Rex" class="dinosaur" id="t-rex">
+        <img src="/static/velociraptor.png" alt="Velociraptor" class="dinosaur" id="velociraptor">
+        <h2>Selva</h2>
+        <p>Hábitat: Selva</p>
+    </div>
+    <div class="habitat" id="habitat-pradera">
+        <img src="/static/triceratops.png" alt="Triceratops" class="dinosaur" id="triceratops">
+        <img src="/static/diplodocus.png" alt="Diplodocus" class="dinosaur" id="diplodocus">
+        <h2>Pradera</h2>
+        <p>Hábitat: Pradera</p>
+    </div>
+    <div class="habitat" id="habitat-oceano">
+        <img src="/static/pteranodon.png" alt="Pteranodon" class="dinosaur" id="pteranodon">
+        <img src="/static/cruteranodon.png" alt="Cruteranodon" class="dinosaur" id="cruteranodon">
+        <h2>Océano</h2>
+        <p>Hábitat: Océano</p>
+    </div>
+</div>
+
+<script>
+    function moveDinosaur(dinoId, habitatId) {
+        const dino = document.getElementById(dinoId);
+        const habitat = document.getElementById(habitatId);
+        const maxX = habitat.clientWidth - dino.clientWidth;
+        const maxY = habitat.clientHeight - dino.clientHeight;
+
+        setInterval(() => {
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            dino.style.transform = `translate(${x}px, ${y}px)`;
+        }, 2000);
+    }
+
+    moveDinosaur('t-rex', 'habitat-selva');
+    moveDinosaur('velociraptor', 'habitat-selva');
+    moveDinosaur('triceratops', 'habitat-pradera');
+    moveDinosaur('diplodocus', 'habitat-pradera');
+    moveDinosaur('pteranodon', 'habitat-oceano');
+    moveDinosaur('cruteranodon', 'habitat-oceano');
+</script>
+</body>
+</html>

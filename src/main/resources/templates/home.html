@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jurassic World</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+    .header {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .header img {
+      width: 200px;
+    }
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 200px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <img src="/jurassic_world_logo.png" alt="Jurassic World Logo">
+  <h1>Jurassic World</h1>
+</div>
+<div class="buttons-container">
+  <button onclick="location.href='/dinosaurios'">Ver Dinosaurios en sus Hábitats</button>
+  <button onclick="location.href='/sensores'">Ver Detalles y Sensores de los Dinosaurios</button>
+  <button onclick="location.href='/enfermeria'">Ver Enfermería con Dinosaurios Heridos</button>
+</div>
+</body>
+</html>

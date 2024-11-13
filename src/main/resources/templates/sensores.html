@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinosaur Details and Sensors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .sensor-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 300px;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .sensor-data {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Dinosaur Details and Sensors</h1>
+</div>
+<div id="dinosaurios" class="sensor-container">
+    <div class="sensor-data">Loading dinosaur details...</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, (frame) => {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/dinosaurios', (message) => {
+            const dinosaurios = JSON.parse(message.body);
+            const dinosauriosDiv = document.getElementById("dinosaurios");
+            dinosauriosDiv.innerHTML = dinosaurios.map(dino => `
+                <div>
+                    <strong>${dino.nombre} (${dino.tipo})</strong><br>
+                    Hábitat: ${dino.habitat}<br>
+                    Temperatura: ${dino.temperatura}°C<br>
+                    Movimiento: ${dino.movimiento}<br>
+                    Frecuencia Cardíaca: ${dino.frecuenciaCardiaca} bpm
+                </div>
+            `).join("<br>");
+        });
+    });
+
+    stompClient.onerror = () => console.error("Error in WebSocket connection");
+    stompClient.onclose = () => console.warn("WebSocket connection closed");
+</script>
+</body>
+</html>
