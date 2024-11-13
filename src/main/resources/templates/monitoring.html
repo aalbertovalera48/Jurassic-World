@@ -1,10 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoreo de Dinosaurios en Tiempo Real</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .sensor-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 300px;
+        }
+        h1 {
+            color: #333;
+        }
+        .sensor-data {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="sensor-container">
+    <h1>Monitoreo en Tiempo Real</h1>
+    <div id="temperature" class="sensor-data">Temperatura: Conectando...</div>
+    <div id="movement" class="sensor-data">Movimiento: Conectando...</div>
+    <div id="heartRate" class="sensor-data">Frecuencia Cardíaca: Conectando...</div>
+</div>
+
+<script>
+    // Conexión WebSocket para el sensor de temperatura
+    const temperatureSocket = new WebSocket("ws://localhost:8080/topic/temperature");
+    temperatureSocket.onmessage = (event) => {
+        document.getElementById("temperature").textContent = "Temperatura: " + event.data + "°C";
+        console.log("Temperatura:", event.data);
+    };
+
+    // Conexión WebSocket para el sensor de movimiento
+    const movementSocket = new WebSocket("ws://localhost:8080/topic/movement");
+    movementSocket.onmessage = (event) => {
+        document.getElementById("movement").textContent = "Movimiento: " + event.data;
+        console.log("Movimiento:", event.data);
+    };
+
+    // Conexión WebSocket para el sensor de frecuencia cardíaca
+    const heartRateSocket = new WebSocket("ws://localhost:8080/topic/heartRate");
+    heartRateSocket.onmessage = (event) => {
+        document.getElementById("heartRate").textContent = "Frecuencia Cardíaca: " + event.data + " bpm";
+        console.log("Frecuencia Cardíaca:", event.data);
+    };
+
+    // Manejo de errores en caso de desconexión
+    [temperatureSocket, movementSocket, heartRateSocket].forEach(socket => {
+        socket.onerror = () => console.error("Error en la conexión WebSocket");
+        socket.onclose = () => console.warn("Conexión WebSocket cerrada");
+    });
+</script>
 </body>
 </html>

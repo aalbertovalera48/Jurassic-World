@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 
 @Service
-public class MovementSensorService {
+public class MovimientoSensorService {
 
     public Flux<String> streamMovementData() {
         return Flux.interval(Duration.ofSeconds(1))
