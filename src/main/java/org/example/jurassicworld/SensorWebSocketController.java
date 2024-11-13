@@ -1,7 +1,7 @@
 package org.example.jurassicworld;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
@@ -28,17 +28,17 @@ public class SensorWebSocketController {
         frequenciaCardiacaSensorService.streamHeartRateData().subscribe(heartRateSink::tryEmitNext);
     }
 
-    @SubscribeMapping("/temperature")
+    @SendTo("/topic/temperature")
     public Flux<Double> getTemperatureData() {
         return temperatureSink.asFlux();
     }
 
-    @SubscribeMapping("/movement")
+    @SendTo("/topic/movement")
     public Flux<String> getMovimientoData() {
         return movementSink.asFlux();
     }
 
-    @SubscribeMapping("/heartRate")
+    @SendTo("/topic/heartRate")
     public Flux<Integer> getFrecuenciaCardiacaData() {
         return heartRateSink.asFlux();
     }
